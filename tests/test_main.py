@@ -60,3 +60,15 @@ def test_should_create_multiple_directories_when_they_exist(create_file: callabl
     assert os.path.exists("file.txt") is False
 
     shutil.rmtree("first_dir")
+
+
+def test_destination_ending_with_slash_is_directory(create_file: callable) -> None:
+    move_file("mv file.txt dir/")
+
+    assert os.path.exists("file.txt") is False
+    assert os.path.exists("dir/file.txt") is True
+
+    with open("dir/file.txt", "r") as file_with_content:
+        assert file_with_content.read() == "This is some\n content for\n the file."
+
+    shutil.rmtree("dir")
