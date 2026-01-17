@@ -14,11 +14,12 @@ def move_file(command: str) -> None:
     - Intermediate destination directories are created if needed.
     """
     parts = command.split()
-    if len(parts) != 3 or parts[0] != "mv":
+    if len(parts) != 3:
         raise ValueError("Unsupported command format. Expected: mv <source> <destination>")
 
-    source_path = parts[1]
-    destination_path = parts[2]
+    cmd, source_path, destination_path = parts
+    if cmd != "mv":
+        raise ValueError("Unsupported command format. Expected: mv <source> <destination>")
 
     if destination_path.endswith("/"):
         destination_path = os.path.join(destination_path, os.path.basename(source_path))
